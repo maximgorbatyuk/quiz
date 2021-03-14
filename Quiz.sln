@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiz", "Quiz\Quiz.csproj", "{0D832D6C-F49B-4E73-98B7-9AE35E72ADEA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84AE01DA-D376-49DF-8244-2577A7B5AAEB}"
+	ProjectSection(SolutionItems) = preProject
+		Parser.java = Parser.java
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D832D6C-F49B-4E73-98B7-9AE35E72ADEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D832D6C-F49B-4E73-98B7-9AE35E72ADEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D832D6C-F49B-4E73-98B7-9AE35E72ADEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D832D6C-F49B-4E73-98B7-9AE35E72ADEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E74A5D1-CEBF-46ED-9640-71FABDFC7BD9}
+	EndGlobalSection
+EndGlobal

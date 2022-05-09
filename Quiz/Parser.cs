@@ -3,90 +3,89 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Quiz
+namespace Quiz;
+
+/// <summary>
+/// This class is thread safe.
+/// </summary>
+public class Parser
 {
-    /// <summary>
-    /// This class is thread safe.
-    /// </summary>
-    public class Parser
+    private readonly object _locker = new ();
+    private FileInfo _file;
+
+    public void SetFile(FileInfo f)
     {
-        private readonly object _locker = new ();
-        private FileInfo _file;
-
-        public void SetFile(FileInfo f)
+        lock (_locker)
         {
-            lock (_locker)
-            {
-                _file = f;
-            }
+            _file = f;
+        }
+    }
+
+    public FileInfo GetFile()
+    {
+        lock (_locker)
+        {
+            return _file;
+        }
+    }
+
+    /// <summary>
+    /// Get Content.
+    /// </summary>
+    /// <exception cref="IOException"></exception>
+    /// <returns></returns>
+    public string GetContent()
+    {
+        StreamReader i = new (_file.OpenRead());
+
+        string output = "";
+        int data;
+
+        while ((data = i.Read()) > 0)
+        {
+            output += (char)data;
         }
 
-        public FileInfo GetFile()
+        return output;
+    }
+
+    /// <summary>
+    /// Get Content Without Unicode.
+    /// </summary>
+    /// <exception cref="IOException"></exception>
+    /// <returns></returns>
+    public string GetContentWithoutUnicode()
+    {
+        StreamReader i = new (_file.OpenRead());
+
+        string output = "";
+
+        int data;
+        while ((data = i.Read()) > 0)
         {
-            lock (_locker)
-            {
-                return _file;
-            }
-        }
-
-        /// <summary>
-        /// Get Content.
-        /// </summary>
-        /// <exception cref="IOException"></exception>
-        /// <returns></returns>
-        public string GetContent()
-        {
-            StreamReader i = new (_file.OpenRead());
-
-            string output = "";
-            int data;
-
-            while ((data = i.Read()) > 0)
+            if (data < 0x80)
             {
                 output += (char)data;
             }
-
-            return output;
         }
 
-        /// <summary>
-        /// Get Content Without Unicode.
-        /// </summary>
-        /// <exception cref="IOException"></exception>
-        /// <returns></returns>
-        public string GetContentWithoutUnicode()
+        return output;
+    }
+
+    public async void SaveContentAsync(string content)
+    {
+        StreamWriter o = new (_file.OpenWrite());
+
+        try
         {
-            StreamReader i = new (_file.OpenRead());
-
-            string output = "";
-
-            int data;
-            while ((data = i.Read()) > 0)
+            for (var i = 0; i < content.Length; i += 1)
             {
-                if (data < 0x80)
-                {
-                    output += (char)data;
-                }
+                await o.WriteAsync(content.ElementAt(i));
             }
-
-            return output;
         }
-
-        public async Task SaveContentAsync(string content)
+        catch (IOException e)
         {
-            StreamWriter o = new (_file.OpenWrite());
-
-            try
-            {
-                for (int i = 0; i < content.Length; i += 1)
-                {
-                    await o.WriteAsync(content.ElementAt(i));
-                }
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine(e.StackTrace);
-            }
+            Console.WriteLine(e.StackTrace);
         }
     }
 }

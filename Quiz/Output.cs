@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace Quiz
+namespace Quiz;
+
+public class Output
 {
-    public class Output
+    public Output(string title, string content)
     {
-        public Output(string title, string content)
-        {
-            Console.WriteLine(title);
-            Console.WriteLine(content);
-            Console.WriteLine();
-        }
+        Console.WriteLine(title);
+        Console.WriteLine(content);
+        Console.WriteLine();
     }
 }

@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Quiz
+namespace Quiz;
+
+class Program
 {
-    class Program
+    private const string ReadmeFileLink = "https://raw.githubusercontent.com/maximgorbatyuk/quiz/main/README.md";
+
+    public static async Task Main(string[] args)
     {
-        private const string ReadmeFileLink = "https://raw.githubusercontent.com/maximgorbatyuk/quiz/main/README.md";
+        var remoteFile = new RemoteFile(ReadmeFileLink);
 
-        public static async Task Main(string[] args)
-        {
-            var remoteFile = new RemoteFile(ReadmeFileLink);
+        ReadonlyFile readonlyFile = await remoteFile.DownloadAsync();
 
-            ReadonlyFile readonlyFile = await remoteFile.DownloadAsync();
+        new Output("Content of the downloaded file", await readonlyFile.ContentAsync());
 
-            new Output("Content of the downloaded file", await readonlyFile.ContentAsync());
+        var parser = new Parser();
 
-            var parser = new Parser();
+        parser.SetFile(readonlyFile.Info());
 
-            parser.SetFile(readonlyFile.Info());
+        new Output("Parser.GetContent()", parser.GetContent());
 
-            new Output("Parser.GetContent()", parser.GetContent());
-
-            new Output("Parser.GetContentWithoutUnicode()", parser.GetContentWithoutUnicode());
-        }
+        new Output("Parser.GetContentWithoutUnicode()", parser.GetContentWithoutUnicode());
     }
 }
